@@ -350,6 +350,46 @@
             .stats-row {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .profile-card {
+                padding: 20px;
+            }
+
+            .profile-info h2 {
+                font-size: 1.2rem;
+            }
+
+            .navbar-brand-custom {
+                font-size: 1.2rem;
+            }
+
+            .survey-cta {
+                padding: 20px;
+            }
+
+            .survey-cta h3 {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .container.py-5 {
+                padding-left: 12px !important;
+                padding-right: 12px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-number {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -377,38 +417,38 @@
             <div class="profile-header">
                 <div class="profile-avatar">
                     @if (strtoupper($participant->sexo) == 'M')
-                        👨
+                        <i class="bi bi-person-fill"></i>
                     @elseif (strtoupper($participant->sexo) == 'F')
-                        👩
+                        <i class="bi bi-person-fill"></i>
                     @else
-                        🙋
+                        <i class="bi bi-person-raised-hand"></i>
                     @endif
                 </div>
                 <div class="profile-info">
                     <h2>{{ $participant->nombre }} {{ $participant->paterno }}</h2>
-                    <p>📧 {{ $participant->correo }}</p>
-                    <p>📍 {{ $participant->ciudad }} @if($participant->municipio), {{ $participant->municipio }} @endif</p>
+                    <p><i class="bi bi-envelope"></i> {{ $participant->correo }}</p>
+                    <p><i class="bi bi-geo-alt"></i> {{ $participant->ciudad }} @if($participant->municipio), {{ $participant->municipio }} @endif</p>
                 </div>
             </div>
 
             <div class="stats-row">
                 <div class="stat-box">
-                    <div class="stat-icon">🎟️</div>
+                    <div class="stat-icon"><i class="bi bi-ticket-perforated"></i></div>
                     <div class="stat-number">{{ $totalVisits }}</div>
                     <div class="stat-label">Visitas Realizadas</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-icon">🍽️</div>
+                    <div class="stat-icon"><i class="bi bi-shop"></i></div>
                     <div class="stat-number">{{ $standsInfo->filter(fn($s) => $s['visited'])->count() }}</div>
                     <div class="stat-label">Stands Visitados</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-icon">📝</div>
+                    <div class="stat-icon"><i class="bi bi-pencil-square"></i></div>
                     <div class="stat-number">
                         @if ($survey)
-                            ✅
+                            <i class="bi bi-check-circle-fill text-success"></i>
                         @else
-                            ❌
+                            <i class="bi bi-x-circle-fill text-danger"></i>
                         @endif
                     </div>
                     <div class="stat-label">Encuesta</div>
@@ -427,25 +467,25 @@
                         <div class="stand-header">
                             {{ $stand['nombre'] }}
                             @if ($stand['visited'])
-                                <span class="visited-badge">✓ ¡Visitado!</span>
+                                <span class="visited-badge"><i class="bi bi-check-circle-fill"></i> ¡Visitado!</span>
                             @endif
                         </div>
                         <div class="stand-body">
                             <div class="stand-detail">
-                                <div class="stand-detail-label">🍽️ Platillo</div>
+                                <div class="stand-detail-label"><i class="bi bi-egg-fried"></i> Platillo</div>
                                 <div class="stand-detail-value">{{ $stand['platillo'] }}</div>
                             </div>
                             <div class="stand-detail">
-                                <div class="stand-detail-label">📖 Descripción</div>
+                                <div class="stand-detail-label"><i class="bi bi-journal-text"></i> Descripción</div>
                                 <div class="stand-detail-value">{{ $stand['descripcion'] }}</div>
                             </div>
                             <div class="stand-detail">
-                                <div class="stand-detail-label">👤 Encargado</div>
+                                <div class="stand-detail-label"><i class="bi bi-person"></i> Encargado</div>
                                 <div class="stand-detail-value">{{ $stand['encargado'] }}</div>
                             </div>
                             @if ($stand['visited'] && $stand['last_visit'])
                                 <div class="stand-detail">
-                                    <div class="stand-detail-label">⏰ Última visita</div>
+                                    <div class="stand-detail-label"><i class="bi bi-clock"></i> Última visita</div>
                                     <div class="stand-detail-value">{{ $stand['last_visit']->format('H:i') }}</div>
                                 </div>
                             @endif
@@ -489,7 +529,7 @@
         <div class="section">
             @if ($survey)
                 <div class="survey-cta" style="background: linear-gradient(135deg, #4dbaff, #28a745);">
-                    <h3>✅ Encuesta Completada</h3>
+                    <h3><i class="bi bi-check-circle"></i> Encuesta Completada</h3>
                     <p>¡Gracias por tu feedback! Tu opinión es valiosa para nosotros.</p>
                     <a href="{{ route('visitors.dashboard', ['code' => $participant->qr_code]) }}" class="btn-survey" style="background: white; color: #087e8b;">
                         <i class="bi bi-arrow-clockwise"></i> Refrescar
@@ -497,7 +537,7 @@
                 </div>
             @else
                 <div class="survey-cta">
-                    <h3>📋 ¡Tu Opinión Importa!</h3>
+                    <h3><i class="bi bi-clipboard-check"></i> ¡Tu Opinión Importa!</h3>
                     <p>Completa una breve encuesta de satisfacción sobre tu experiencia en el evento. ¡Solo toma 2 minutos!</p>
                     <a href="{{ route('survey.show', ['code' => $participant->qr_code]) }}" class="btn-survey">
                         <i class="bi bi-arrow-right"></i> Responder Encuesta

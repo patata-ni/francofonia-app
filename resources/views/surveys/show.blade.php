@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center py-4">
-                    <h2 class="mb-0">📋 Encuesta de Satisfacción</h2>
+                    <h2 class="mb-0"><i class="bi bi-clipboard-check"></i> Encuesta de Satisfacción</h2>
                     <p class="mb-0 mt-2">Francofonía — Evento Cultural</p>
                 </div>
 
@@ -34,15 +34,15 @@
                                             <input class="form-check-input rating-input" type="radio" name="q1" id="q1_{{ $i }}" value="{{ $i }}" required>
                                             <label class="form-check-label rating-label" for="q1_{{ $i }}">
                                                 @if ($i == 1)
-                                                    😞 Muy Mala
+                                                    <i class="bi bi-emoji-frown"></i> Muy Mala
                                                 @elseif ($i == 2)
-                                                    😕 Mala
+                                                    <i class="bi bi-emoji-neutral"></i> Mala
                                                 @elseif ($i == 3)
-                                                    😐 Regular
+                                                    <i class="bi bi-emoji-expressionless"></i> Regular
                                                 @elseif ($i == 4)
-                                                    😊 Buena
+                                                    <i class="bi bi-emoji-smile"></i> Buena
                                                 @elseif ($i == 5)
-                                                    😍 Excelente
+                                                    <i class="bi bi-emoji-laughing"></i> Excelente
                                                 @endif
                                             </label>
                                         </div>
@@ -69,11 +69,11 @@
                                             <input class="form-check-input rating-input" type="radio" name="q2" id="q2_{{ $i }}" value="{{ $i }}" required>
                                             <label class="form-check-label rating-label" for="q2_{{ $i }}">
                                                 @if ($i == 1)
-                                                    ⭐
+                                                    <i class="bi bi-star-fill"></i>
                                                 @elseif ($i == 5)
-                                                    ⭐⭐⭐⭐⭐
+                                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                                                 @else
-                                                    {{ str_repeat('⭐', $i) }}
+                                                    @for ($j = 0; $j < $i; $j++)<i class="bi bi-star-fill"></i>@endfor
                                                 @endif
                                                 {{ $i }}
                                             </label>
@@ -126,9 +126,9 @@
                                             <input class="form-check-input rating-input" type="radio" name="q4" id="q4_{{ $i }}" value="{{ $i }}" required>
                                             <label class="form-check-label rating-label" for="q4_{{ $i }}">
                                                 @if ($i == 5)
-                                                    👍 Definitivamente
+                                                    <i class="bi bi-hand-thumbs-up-fill"></i> Definitivamente
                                                 @elseif ($i == 1)
-                                                    👎 De ninguna forma
+                                                    <i class="bi bi-hand-thumbs-down-fill"></i> De ninguna forma
                                                 @else
                                                     Opción {{ $i }}
                                                 @endif
@@ -172,7 +172,7 @@
                         <!-- Comentarios -->
                         <div class="mb-4">
                             <div class="form-group">
-                                <label for="comentarios" class="form-label fw-bold">💬 Comentarios adicionales (opcional)</label>
+                                <label for="comentarios" class="form-label fw-bold"><i class="bi bi-chat-dots"></i> Comentarios adicionales (opcional)</label>
                                 <textarea class="form-control" id="comentarios" name="comentarios" rows="4" placeholder="Comparte tus sugerencias o comentarios..."></textarea>
                                 <small class="text-muted">Máximo 500 caracteres</small>
                                 @error('comentarios')

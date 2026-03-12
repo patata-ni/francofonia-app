@@ -12,7 +12,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return $this->redirectByRole(Auth::user()->role);
         }
-        return view('auth.login');
+        return redirect()->route('home')->with('openLogin', true);
     }
 
     public function login(Request $request)

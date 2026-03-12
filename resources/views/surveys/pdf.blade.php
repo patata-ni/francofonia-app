@@ -117,7 +117,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>📋 Reportes de Encuestas Francofonía</h1>
+        <h1><i class="bi bi-clipboard-check"></i> Reportes de Encuestas Francofonía</h1>
         <p>Análisis de Satisfacción del Evento Cultural</p>
         <p>Generado: {{ now()->format('d/m/Y H:i') }}</p>
     </div>
@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <div class="section-title">📊 Calificaciones Promedio</div>
+    <div class="section-title"><i class="bi bi-bar-chart-line"></i> Calificaciones Promedio</div>
     <table>
         <thead>
             <tr>
@@ -178,7 +178,7 @@
         </tbody>
     </table>
 
-    <div class="section-title">📝 Detalle de Encuestas</div>
+    <div class="section-title"><i class="bi bi-pencil-square"></i> Detalle de Encuestas</div>
     <table>
         <thead>
             <tr>

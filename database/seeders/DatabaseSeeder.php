@@ -12,6 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(StandSeeder::class);
+        $this->call(TestDataSeeder::class);
+
         $users = [
             [
                 'name' => 'Administrador',

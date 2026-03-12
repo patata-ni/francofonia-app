@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Participant;
+use App\Models\User;
 use App\Models\Visit;
 use App\Models\Stand;
 use App\Models\Survey;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ParticipantController extends Controller
 {
@@ -40,6 +42,13 @@ class ParticipantController extends Controller
         $participant->qr_code = 'FRANCO-' . str_pad($participant->id, 6, '0', STR_PAD_LEFT);
         $participant->save();
 
+        User::create([
+            'name'     => $data['nombre'] . ' ' . $data['paterno'],
+            'email'    => $data['correo'],
+            'password' => bcrypt($participant->qr_code),
+            'role'     => 'user',
+        ]);
+
         return redirect()->route('participants.show', $participant)
             ->with('success', 'Participante registrado exitosamente.');
     }
@@ -49,6 +58,24 @@ class ParticipantController extends Controller
         $participant = Participant::with('visits.stand')->findOrFail($id);
         $qrUrl = url("/visit?code={$participant->qr_code}");
         return view('participants.show', compact('participant', 'qrUrl'));
+    }
+
+    public function badge(string $id)
+    {
+        $participant = Participant::findOrFail($id);
+        $qrUrl = url("/visit?code={$participant->qr_code}");
+        return view('participants.badge', compact('participant', 'qrUrl'));
+    }
+
+    public function badgePdf(string $id)
+    {
+        $participant = Participant::findOrFail($id);
+        $qrUrl = url("/visit?code={$participant->qr_code}");
+        $qrSvg = QrCode::size(180)->errorCorrection('H')->generate($qrUrl);
+        $pdf = Pdf::loadView('participants.badge-pdf', compact('participant', 'qrUrl', 'qrSvg'));
+        $pdf->setPaper([0, 0, 340, 500]);
+        $filename = 'gafete-' . $participant->qr_code . '.pdf';
+        return $pdf->download($filename);
     }
 
     public function edit(string $id)

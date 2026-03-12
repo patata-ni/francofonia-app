@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home');
+        $stands = \App\Models\Stand::all();
+        return view('home', compact('stands'));
     }
 }

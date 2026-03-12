@@ -29,6 +29,8 @@ Route::post('/logout', [AuthController::class , 'logout'])->name('logout');
 
 // ── Admin ─────────────────────────────────────────────────────
 Route::middleware('role:admin')->group(function () {
+    Route::get('participants/{participant}/badge', [ParticipantController::class, 'badge'])->name('participants.badge');
+    Route::get('participants/{participant}/badge-pdf', [ParticipantController::class, 'badgePdf'])->name('participants.badge.pdf');
     Route::resource('participants', ParticipantController::class);
     Route::resource('stands', StandController::class);
     Route::get('reports', [ReportController::class , 'index'])->name('reports.index');

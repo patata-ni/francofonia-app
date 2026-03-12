@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Francofonía - Evento Cultural</title>
+    <title>Premier foire des Saveurs de la Francophonie</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,11 +19,18 @@
         .hero-section { padding: 60px 0; text-align: center; }
         .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 800; background: linear-gradient(135deg, var(--blue-dark), var(--red-fr)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px; }
         .hero-subtitle { font-size: 1.3rem; color: #555; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .collage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; padding: 40px; margin: 0; }
-        .collage-item { background: white; border-radius: 12px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0, 35, 149, 0.08); transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 180px; }
-        .collage-item:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0, 35, 149, 0.15); }
-        .collage-emoji { font-size: 3.5rem; margin-bottom: 12px; }
-        .collage-text { font-size: 0.85rem; font-weight: 600; color: var(--blue-dark); }
+        .collage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; padding: 40px; margin: 0; }
+        .flip-card { perspective: 800px; min-height: 220px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; min-height: 220px; transition: transform 0.6s cubic-bezier(.4,0,.2,1); transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 16px; }
+        .flip-card-front { background: white; box-shadow: 0 4px 15px rgba(0, 35, 149, 0.08); }
+        .flip-card-back { background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid)); color: white; transform: rotateY(180deg); box-shadow: 0 8px 25px rgba(0, 35, 149, 0.25); text-align: center; }
+        .flip-card-back .back-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+        .flip-card-back .back-desc { font-size: 0.78rem; line-height: 1.5; opacity: 0.92; }
+        .flip-card-back .back-origin { font-size: 0.7rem; opacity: 0.7; margin-top: 10px; font-style: italic; }
+        .collage-emoji { font-size: 3.5rem; margin-bottom: 12px; color: var(--blue-dark); }
+        .collage-text { font-size: 0.9rem; font-weight: 700; color: var(--blue-dark); }
         .info-section { background: white; border-radius: 16px; padding: 50px 40px; margin: 60px 0; box-shadow: 0 8px 30px rgba(0, 35, 149, 0.1); }
         .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; color: var(--blue-dark); margin-bottom: 30px; text-align: center; }
         .about-text { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 40px; text-align: justify; }
@@ -57,7 +64,45 @@
         .role-name { font-weight: 700; color: var(--blue-dark); margin-bottom: 5px; }
         .role-desc { font-size: 0.8rem; color: #666; }
         .footer { background: #f8f9fa; border-top: 1px solid #e0e0e0; padding: 40px 0; text-align: center; color: #666; }
-        @media (max-width: 768px) { .hero-title { font-size: 2.5rem; } .role-selector { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .hero-title, .hero-section .hero-title-text { font-size: 2rem !important; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-section { padding: 30px 0; }
+            .hero-section h2 { font-size: 1.3rem !important; }
+            .role-selector { grid-template-columns: 1fr; }
+            .collage-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
+            .flip-card { min-height: 180px; }
+            .flip-card-inner { min-height: 180px; }
+            .flip-card-front, .flip-card-back { padding: 16px 10px; }
+            .collage-emoji { font-size: 2.5rem; margin-bottom: 8px; }
+            .collage-text { font-size: 0.8rem; }
+            .flip-card-back .back-title { font-size: 0.85rem; }
+            .flip-card-back .back-desc { font-size: 0.7rem; }
+            .info-section { padding: 30px 20px; margin: 30px 0; }
+            .section-title { font-size: 1.5rem; }
+            .about-text { font-size: 0.95rem; }
+            .highlights { grid-template-columns: 1fr; gap: 15px; }
+            .stands-grid { grid-template-columns: 1fr; gap: 15px; }
+            .stands-section { margin: 30px 0; }
+            .stand-icon { font-size: 2rem; padding: 20px; }
+            .cta-section { padding: 35px 20px; margin: 30px 0; }
+            .cta-title { font-size: 1.4rem; }
+            .cta-subtitle { font-size: 0.95rem; }
+            .btn-cta { padding: 12px 28px; font-size: 0.9rem; margin: 5px; }
+            .navbar-brand-custom { font-size: 1.2rem; }
+            .navbar-custom .container { padding: 0 12px; }
+            .modal-header { padding: 20px; }
+            .modal-title { font-size: 1.3rem; }
+        }
+        @media (max-width: 480px) {
+            .hero-title, .hero-section .hero-title-text { font-size: 1.6rem !important; }
+            .hero-section h2 { font-size: 1.1rem !important; }
+            .collage-grid { padding: 10px; gap: 8px; }
+            .flip-card { min-height: 160px; }
+            .flip-card-inner { min-height: 160px; }
+            .collage-emoji { font-size: 2rem; }
+            .stands-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -75,41 +120,139 @@
 
     <section class="hero-section">
         <div class="container">
-            <div class="d-flex justify-content-center align-items-center mb-4">
-                <img src="{{ asset('images/logo-francofonia.png') }}" alt="Francofonía" style="height:80px; width:80px; margin-right:24px;">
-                <span class="hero-title" style="font-size:4rem; font-family:'Playfair Display',serif; color:#7a2c7a;">Francofonía</span>
+            <div class="d-flex justify-content-center align-items-center mb-4 flex-wrap">
+                <img src="{{ asset('images/logo-francofonia.png') }}" alt="Francofonía" style="height:80px; width:80px; margin-right:16px;" class="hero-logo">
+                <span class="hero-title hero-title-text" style="font-family:'Playfair Display',serif; color:#7a2c7a;">Francofonía</span>
             </div>
-            <p class="hero-subtitle">Celebra la riqueza cultural de la Francofonía. Una experiencia única de gastronomía, tradición y encuentro entre culturas francófonas.</p>
+            <h2 style="font-family:'Playfair Display',serif; color:var(--blue-dark); font-size:1.8rem; margin-bottom:10px;">Premier foire des Saveurs de la Francophonie</h2>
+            <p class="hero-subtitle">Primera Feria Gastronómica de la Francofonía. Una experiencia única de sabores, tradición y encuentro entre culturas francófonas.</p>
+            <p style="color:#888; font-size:0.95rem;"><i class="bi bi-calendar-event"></i> 20 de marzo de 2026 &nbsp;|&nbsp; <i class="bi bi-geo-alt"></i> Salón Nakú, Universidad Tecnológica de Gutiérrez Zamora</p>
         </div>
     </section>
 
     <section class="collage-grid">
-        <div class="collage-item"><div class="collage-emoji">🥐</div><div class="collage-text">Croissants</div></div>
-        <div class="collage-item"><div class="collage-emoji">🇫🇷</div><div class="collage-text">Francia</div></div>
-        <div class="collage-item"><div class="collage-emoji">🧇</div><div class="collage-text">Waffles</div></div>
-        <div class="collage-item"><div class="collage-emoji">🍽️</div><div class="collage-text">Gastronomía</div></div>
-        <div class="collage-item"><div class="collage-emoji">🎵</div><div class="collage-text">Música</div></div>
-        <div class="collage-item"><div class="collage-emoji">🎨</div><div class="collage-text">Arte</div></div>
-        <div class="collage-item"><div class="collage-emoji">🗼</div><div class="collage-text">Cultura</div></div>
-        <div class="collage-item"><div class="collage-emoji">🍷</div><div class="collage-text">Vinos</div></div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-cup-hot"></i></div>
+                    <div class="collage-text">Crepê</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Crepê</div>
+                    <div class="back-desc">Fina masa extendida rellena de ingredientes dulces o salados. Originaria de la región de Bretaña, es uno de los platos más emblemáticos de Francia.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Bretaña, Francia</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-cake2"></i></div>
+                    <div class="collage-text">Madeleine</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">La Madeleine</div>
+                    <div class="back-desc">Pequeño bizcocho en forma de concha, suave y esponjoso, con sabor a mantequilla y limón. Inmortalizado por Marcel Proust en su obra literaria.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Commercy, Lorena</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-pie-chart"></i></div>
+                    <div class="collage-text">Quiche Lorraine</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Quiche Lorraine</div>
+                    <div class="back-desc">Tarta salada de masa quebrada rellena de huevo, crema, tocino y queso. Un clásico de la cocina francesa desde el siglo XVI.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Lorena, Francia</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-stack"></i></div>
+                    <div class="collage-text">Croquenbouche</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Croquenbouche</div>
+                    <div class="back-desc">Espectacular torre de profiteroles rellenos de crema y unidos con hilos de caramelo. Pieza central de bodas y celebraciones francesas.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Francia, s. XVIII</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-fire"></i></div>
+                    <div class="collage-text">Crème Brûlée</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Crème Brûlée</div>
+                    <div class="back-desc">Crema pastelera de vainilla cubierta con una capa crujiente de azúcar caramelizado con soplete. El postre más elegante de la gastronomía francesa.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Francia, s. XVII</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-grid-3x3"></i></div>
+                    <div class="collage-text">Canapé</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Canapé</div>
+                    <div class="back-desc">Elegantes bocadillos sobre pan tostado decorados con ingredientes gourmet. Imprescindibles en recepciones y cócteles de la alta cocina francesa.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Francia</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-egg-fried"></i></div>
+                    <div class="collage-text">Croque Monsieur</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Croque Monsieur</div>
+                    <div class="back-desc">Sándwich gratinado de jamón y queso con bechamel. El Croque Madame lleva además un huevo frito encima. Nacido en los cafés parisinos de 1910.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> París, Francia</div>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="collage-emoji"><i class="bi bi-moon"></i></div>
+                    <div class="collage-text">Croissant</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="back-title">Croissant</div>
+                    <div class="back-desc">Icónico pan hojaldrado en forma de media luna, crujiente por fuera y suave por dentro. Símbolo del desayuno francés en todo el mundo.</div>
+                    <div class="back-origin"><i class="bi bi-geo-alt"></i> Francia, s. XIX</div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section class="info-section">
         <div class="container">
-            <h2 class="section-title">✨ Sobre el Evento</h2>
-            <p class="about-text">Francofonía es un vibrante evento cultural que celebra la diversidad y riqueza del mundo francófono. Durante esta experiencia única, explora diferentes stands temáticos donde conocerás la gastronomía, el arte, la música y las tradiciones de países francófonos.</p>
+            <h2 class="section-title"><i class="bi bi-stars"></i> Sobre el Evento</h2>
+            <p class="about-text">La <strong>Premier foire des Saveurs de la Francophonie</strong> es la primera feria gastronómica dentro del marco de actividades de la Francofonía, celebrada en el <strong>Salón Nakú</strong> dentro de las instalaciones de la <strong>Universidad Tecnológica de Gutiérrez Zamora</strong>, el día <strong>20 de marzo de 2026</strong>. Ven a disfrutar de los sabores auténticos de la gastronomía francesa preparados por nuestros talentosos estudiantes.</p>
             <div class="highlights">
                 <div class="highlight-card">
-                    <h4><i class="bi bi-shop"></i> Múltiples Stands</h4>
-                    <p>Descubre experiencias culinarias y culturales en cada punto del evento.</p>
+                    <h4><i class="bi bi-shop"></i> 8 Stands Gastronómicos</h4>
+                    <p>Descubre platillos clásicos de la gastronomía francesa en cada stand.</p>
                 </div>
                 <div class="highlight-card">
-                    <h4><i class="bi bi-award"></i> Tradiciones Auténticas</h4>
-                    <p>Vive la autenticidad de las tradiciones francófonas con expertos.</p>
+                    <h4><i class="bi bi-award"></i> Recetas Auténticas</h4>
+                    <p>Cada platillo fue preparado siguiendo las recetas originales de la cocina francesa.</p>
                 </div>
                 <div class="highlight-card">
                     <h4><i class="bi bi-heart"></i> Experiencia Interactiva</h4>
-                    <p>Participa, degusta, aprende y comparte con otros visitantes.</p>
+                    <p>Participa, degusta, aprende y comparte tu opinión en nuestra encuesta.</p>
                 </div>
             </div>
         </div>
@@ -117,36 +260,25 @@
 
     <section class="stands-section">
         <div class="container">
-            <h2 class="section-title">🎪 Stands Disponibles</h2>
+            <h2 class="section-title"><i class="bi bi-shop-window"></i> Nuestros Stands</h2>
             <div class="stands-grid">
+                @foreach($stands as $stand)
                 <div class="stand-showcase">
-                    <div class="stand-icon">🥐</div>
+                    <div class="stand-icon"><i class="bi bi-egg-fried"></i></div>
                     <div class="stand-content">
-                        <h5>Stand Francia</h5>
-                        <p>Croissants recién horneados y especialidades francesas auténticas.</p>
+                        <h5>{{ $stand->nombre }}</h5>
+                        <p><strong>Platillo:</strong> {{ $stand->platillo }}</p>
+                        <p><small><i class="bi bi-person"></i> {{ $stand->encargado }}</small></p>
                     </div>
                 </div>
-                <div class="stand-showcase">
-                    <div class="stand-icon">🧇</div>
-                    <div class="stand-content">
-                        <h5>Stand Bélgica</h5>
-                        <p>Waffles belgas tradicionales con toppings gourmet.</p>
-                    </div>
-                </div>
-                <div class="stand-showcase">
-                    <div class="stand-icon">🧀</div>
-                    <div class="stand-content">
-                        <h5>Stand Suiza</h5>
-                        <p>Fondue de queso suizo y especialidades alpinas.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
 
     <section class="cta-section">
         <div class="container">
-            <h2 class="cta-title">¡Sé Parte de Francofonía!</h2>
+            <h2 class="cta-title">¡Sé Parte de la Feria Gastronómica!</h2>
             <p class="cta-subtitle">Registra tu visita, explora los stands y comparte tu experiencia</p>
             <button class="btn-cta" data-bs-toggle="modal" data-bs-target="#loginModal">Inicia Sesión</button>
         </div>
@@ -154,7 +286,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 Francofonía. Celebrando la Diversidad Cultural.</p>
+            <p>&copy; 2026 Premier foire des Saveurs de la Francophonie &mdash; Universidad Tecnológica de Gutiérrez Zamora</p>
         </div>
     </footer>
 
@@ -179,7 +311,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="modalPassword" name="password" required>
+                                <button class="btn btn-outline-secondary" type="button" id="toggleModalPassword">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Ingresar</button>
                     </form>
@@ -189,7 +326,20 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    @if($errors->any())
+    <script>
+        document.getElementById('toggleModalPassword').addEventListener('click', function () {
+            const pwd = document.getElementById('modalPassword');
+            const icon = this.querySelector('i');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.className = 'bi bi-eye-slash-fill';
+            } else {
+                pwd.type = 'password';
+                icon.className = 'bi bi-eye-fill';
+            }
+        });
+    </script>
+    @if($errors->any() || session('openLogin'))
     <script>
         var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
         loginModal.show();

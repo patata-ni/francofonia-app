@@ -4,9 +4,9 @@
 @section('page-title', 'Detalle del participante')
 
 @section('topbar-actions')
-    <button onclick="window.print()" class="btn btn-gold btn-sm no-print">
+    <a href="{{ route('participants.badge', $participant) }}" target="_blank" class="btn btn-gold btn-sm no-print">
         <i class="bi bi-printer-fill me-1"></i> Imprimir gafete
-    </button>
+    </a>
     <a href="{{ route('participants.edit', $participant) }}" class="btn btn-outline-secondary btn-sm no-print">
         <i class="bi bi-pencil me-1"></i> Editar
     </a>

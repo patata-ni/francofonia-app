@@ -13,25 +13,62 @@ class StandSeeder extends Seeder
      */
     public function run(): void
     {
-        Stand::create([
-            'nombre' => 'Estand Francia',
-            'platillo' => 'Crème Brûlée',
-            'descripcion' => 'Descubre la deliciosa gastronomía francesa',
-            'encargado' => 'María García'
-        ]);
+        $stands = [
+            [
+                'nombre' => 'Crepê',
+                'platillo' => 'Crepa',
+                'descripcion' => 'Delicada crepa francesa, un clásico de la gastronomía gala.',
+                'encargado' => 'Adriana García Malpica',
+            ],
+            [
+                'nombre' => 'La Madeleine à la Veilleuse',
+                'platillo' => 'Magdalena',
+                'descripcion' => 'Tradicional magdalena francesa, suave y esponjosa.',
+                'encargado' => 'Alexa Sinaí Santiago Villanueva',
+            ],
+            [
+                'nombre' => 'Quiche Lorraine',
+                'platillo' => 'Pastel',
+                'descripcion' => 'Pastel salado de origen francés con huevo, crema y tocino.',
+                'encargado' => 'Mildred Zoé Gómez Bautista',
+            ],
+            [
+                'nombre' => 'Croquenbouche',
+                'platillo' => 'Profiterol',
+                'descripcion' => 'Torre de profiteroles cubiertos de caramelo, un postre espectacular.',
+                'encargado' => 'José Emilio Hernández Romero',
+            ],
+            [
+                'nombre' => 'Crème Brûlée',
+                'platillo' => 'Crema flameada',
+                'descripcion' => 'Crema pastelera con una crujiente capa de caramelo flameado.',
+                'encargado' => 'Selina Maldonado López',
+            ],
+            [
+                'nombre' => 'Canapé',
+                'platillo' => 'Canape',
+                'descripcion' => 'Elegantes bocadillos franceses sobre pan tostado.',
+                'encargado' => 'Alondra Pardiñas Ordoñez',
+            ],
+            [
+                'nombre' => 'Croque Monsieur y Croque Madame',
+                'platillo' => 'Sandwich',
+                'descripcion' => 'Sándwich francés gratinado con jamón y queso, clásico de la cocina parisina.',
+                'encargado' => 'José Guadalupe Rivera Quezada',
+            ],
+            [
+                'nombre' => 'Croissant',
+                'platillo' => 'Pan',
+                'descripcion' => 'Icónico pan hojaldrado francés, crujiente por fuera y suave por dentro.',
+                'encargado' => 'Ivan Atzin Santes',
+            ],
+        ];
 
-        Stand::create([
-            'nombre' => 'Estand Bélgica',
-            'platillo' => 'Waffles Belgas',
-            'descripcion' => 'Auténticos waffles de Bélgica',
-            'encargado' => 'Juan López'
-        ]);
-
-        Stand::create([
-            'nombre' => 'Estand Canadá',
-            'platillo' => 'Jarabe de Arce',
-            'descripcion' => 'Postres con delicioso jarabe de arce canadiense',
-            'encargado' => 'Carlos Martín'
-        ]);
+        foreach ($stands as $stand) {
+            Stand::updateOrCreate(
+                ['nombre' => $stand['nombre']],
+                $stand
+            );
+        }
     }
 }

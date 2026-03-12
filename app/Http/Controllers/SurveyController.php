@@ -31,8 +31,8 @@ class SurveyController extends Controller
         // Check if survey already exists
         $existingSurvey = Survey::where('participant_id', $participant->id)->first();
         if ($existingSurvey) {
-            return redirect()->route('home')
-                ->with('info', 'Este participante ya ha completado la encuesta.');
+            return redirect()->route('visitors.dashboard', ['code' => $participant->qr_code])
+                ->with('info', 'Ya has completado la encuesta. ¡Gracias!');
         }
 
         return view('surveys.show', compact('participant'));
@@ -62,7 +62,8 @@ class SurveyController extends Controller
 
         Survey::create($data);
 
-        return redirect()->route('home')
+        $participant = Participant::findOrFail($participant_id);
+        return redirect()->route('visitors.dashboard', ['code' => $participant->qr_code])
             ->with('success', '¡Gracias por llenar la encuesta!');
     }
 
@@ -84,7 +85,13 @@ class SurveyController extends Controller
 
         $surveys = Survey::with('participant')
             ->orderBy('created_at', 'desc')
-            ->paginate(20);
+            ->paginate(10, ['*'], 'page');
+
+        $comments = Survey::with('participant')
+            ->whereNotNull('comentarios')
+            ->where('comentarios', '!=', '')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10, ['*'], 'comments_page');
 
         $questions = [
             'q1' => '¿Qué tal fue tu experiencia en el evento?',
@@ -94,7 +101,7 @@ class SurveyController extends Controller
             'q5' => '¿Volverías a un evento similar?',
         ];
 
-        return view('surveys.reports', compact('totalSurveys', 'totalParticipants', 'averages', 'surveys', 'questions'));
+        return view('surveys.reports', compact('totalSurveys', 'totalParticipants', 'averages', 'surveys', 'comments', 'questions'));
     }
 
     /**

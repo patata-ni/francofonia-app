@@ -102,6 +102,30 @@
             .topbar {
                 padding-left: 64px !important;
             }
+            .page-wrapper {
+                padding: 16px;
+            }
+            .stat-card .stat-val {
+                font-size: 1.5rem;
+            }
+            .table-modern {
+                font-size: 0.8rem;
+            }
+            .table-modern td, .table-modern thead th {
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .topbar {
+                padding: 10px 10px 10px 56px !important;
+            }
+            .topbar-title {
+                font-size: 0.95rem;
+            }
+            .page-wrapper {
+                padding: 12px;
+            }
         }
 
         .sidebar-brand {
@@ -303,9 +327,9 @@
         .stat-card .stat-val  { font-size: 2rem; font-weight: 700; line-height: 1; }
         .stat-card .stat-label{ font-size: .78rem; opacity: .8; margin-top: 4px; }
         .stat-blue  { background: linear-gradient(135deg, #002395, #0046c8); }
-        .stat-gold  { background: linear-gradient(135deg, #b8860b, #d4af37); }
-        .stat-red   { background: linear-gradient(135deg, #c0392b, #ED2939); }
-        .stat-green { background: linear-gradient(135deg, #1a7a4a, #27ae60); }
+        .stat-gold  { background: linear-gradient(135deg, #1a5276, #2980b9); }
+        .stat-red   { background: linear-gradient(135deg, #0b3d91, #1e6dd1); }
+        .stat-green { background: linear-gradient(135deg, #154360, #1f78b4); }
 
         /* ── BUTTONS ── */
         .btn-franco {
@@ -430,6 +454,10 @@
                 <a href="{{ route('reports.index') }}"
                    class="sidebar-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
                     <i class="bi bi-bar-chart-fill"></i> Reporte de visitas
+                </a>
+                <a href="{{ route('surveys.reports') }}"
+                   class="sidebar-link {{ request()->routeIs('surveys.*') ? 'active' : '' }}">
+                    <i class="bi bi-clipboard-data-fill"></i> Encuestas
                 </a>
 
             @elseif(auth()->user()->isScanner())

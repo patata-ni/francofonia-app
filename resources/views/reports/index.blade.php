@@ -88,7 +88,7 @@
     padding: 0 4px;
     line-height: 1;
 }
-.chart-modal-close:hover { color: #ED2939; }
+.chart-modal-close:hover { color: #0b3d91; }
 .chart-modal-body {
     padding: 20px;
     overflow-y: auto;
@@ -236,7 +236,7 @@
             <div class="card-body">
                 @php
                     $sexLabels = ['M' => 'Masculino', 'F' => 'Femenino', 'O' => 'Otro'];
-                    $sexColors = ['M' => '#002395', 'F' => '#ED2939', 'O' => '#6c757d'];
+                    $sexColors = ['M' => '#002395', 'F' => '#2980b9', 'O' => '#85c1e9'];
                 @endphp
 
                 @foreach(['M','F','O'] as $s)
@@ -307,7 +307,7 @@
     <div class="col-lg-4">
         <div class="card chart-card-clickable" onclick="openDetail('sex')">
             <div class="card-header">
-                <i class="bi bi-pie-chart-fill me-2" style="color:#ED2939"></i>Distribución por sexo
+                <i class="bi bi-pie-chart-fill me-2" style="color:#2980b9"></i>Distribución por sexo
                 <span class="click-hint"><i class="bi bi-arrows-fullscreen"></i></span>
             </div>
             <div class="card-body d-flex align-items-center justify-content-center">
@@ -322,7 +322,7 @@
     <div class="col-lg-6">
         <div class="card chart-card-clickable" onclick="openDetail('hours')">
             <div class="card-header">
-                <i class="bi bi-clock-fill me-2" style="color:var(--gold)"></i>Visitas por hora del día
+                <i class="bi bi-clock-fill me-2" style="color:#1a5276"></i>Visitas por hora del día
                 <span class="click-hint"><i class="bi bi-arrows-fullscreen"></i></span>
             </div>
             <div class="card-body">
@@ -335,7 +335,7 @@
     <div class="col-lg-6">
         <div class="card chart-card-clickable" onclick="openDetail('visitors')">
             <div class="card-header">
-                <i class="bi bi-star-fill me-2" style="color:var(--gold)"></i>Top 5 visitantes más activos
+                <i class="bi bi-star-fill me-2" style="color:#0b3d91"></i>Top 5 visitantes más activos
                 <span class="click-hint"><i class="bi bi-arrows-fullscreen"></i> Click para ver todos</span>
             </div>
             <div class="card-body">
@@ -350,7 +350,7 @@
     <div class="col-lg-6">
         <div class="card chart-card-clickable" onclick="openDetail('cities')">
             <div class="card-header">
-                <i class="bi bi-geo-alt-fill me-2" style="color:#27ae60"></i>Participantes por ciudad (Top 10)
+                <i class="bi bi-geo-alt-fill me-2" style="color:#1f78b4"></i>Participantes por ciudad (Top 10)
                 <span class="click-hint"><i class="bi bi-arrows-fullscreen"></i> Click para ver todas</span>
             </div>
             <div class="card-body">
@@ -552,7 +552,7 @@ function buildSexDetail(title, body) {
         type: 'doughnut',
         data: {
             labels: ['Masculino', 'Femenino', 'Otro'],
-            datasets: [{ data: [sexData.M, sexData.F, sexData.O], backgroundColor: ['#002395', '#ED2939', '#6c757d'], borderWidth: 2, borderColor: '#fff' }]
+            datasets: [{ data: [sexData.M, sexData.F, sexData.O], backgroundColor: ['#002395', '#2980b9', '#85c1e9'], borderWidth: 2, borderColor: '#fff' }]
         },
         options: { responsive: true, cutout: '55%', plugins: { legend: { position: 'bottom' } } }
     });
@@ -579,7 +579,7 @@ function buildHoursDetail(title, body) {
     }
     modalChart = new Chart(canvas, {
         type: 'line',
-        data: { labels: labels, datasets: [{ label: 'Visitas', data: data, borderColor: '#d4af37', backgroundColor: 'rgba(212,175,55,0.15)', fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#d4af37' }] },
+        data: { labels: labels, datasets: [{ label: 'Visitas', data: data, borderColor: '#1a5276', backgroundColor: 'rgba(26,82,118,0.15)', fill: true, tension: 0.4, pointRadius: 4, pointBackgroundColor: '#1a5276' }] },
         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
     });
     var rows = [];
@@ -602,7 +602,7 @@ function buildVisitorsDetail(title, body) {
         type: 'bar',
         data: {
             labels: top20.map(function(v) { return v.nombre.substring(0, 25); }),
-            datasets: [{ label: 'Visitas', data: top20.map(function(v) { return v.visitas; }), backgroundColor: 'rgba(212,175,55,0.75)', borderColor: '#d4af37', borderWidth: 1, borderRadius: 4 }]
+            datasets: [{ label: 'Visitas', data: top20.map(function(v) { return v.visitas; }), backgroundColor: 'rgba(11,61,145,0.75)', borderColor: '#0b3d91', borderWidth: 1, borderRadius: 4 }]
         },
         options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }
     });
@@ -622,7 +622,7 @@ function buildCitiesDetail(title, body) {
         type: 'bar',
         data: {
             labels: keys,
-            datasets: [{ label: 'Participantes', data: vals, backgroundColor: 'rgba(39,174,96,0.7)', borderColor: '#27ae60', borderWidth: 1, borderRadius: 6 }]
+            datasets: [{ label: 'Participantes', data: vals, backgroundColor: 'rgba(31,120,180,0.7)', borderColor: '#1f78b4', borderWidth: 1, borderRadius: 6 }]
         },
         options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }
     });
@@ -670,7 +670,7 @@ new Chart(document.getElementById('chartSex'), {
         labels: ['Masculino', 'Femenino', 'Otro'],
         datasets: [{
             data: [{{ $bySex['M'] ?? 0 }}, {{ $bySex['F'] ?? 0 }}, {{ $bySex['O'] ?? 0 }}],
-            backgroundColor: ['#002395', '#ED2939', '#6c757d'],
+            backgroundColor: ['#002395', '#2980b9', '#85c1e9'],
             borderWidth: 2,
             borderColor: '#fff'
         }]
@@ -699,12 +699,12 @@ new Chart(document.getElementById('chartSex'), {
             datasets: [{
                 label: 'Visitas',
                 data: data,
-                borderColor: '#d4af37',
-                backgroundColor: 'rgba(212,175,55,0.15)',
+                borderColor: '#1a5276',
+                backgroundColor: 'rgba(26,82,118,0.15)',
                 fill: true,
                 tension: 0.4,
                 pointRadius: 3,
-                pointBackgroundColor: '#d4af37'
+                pointBackgroundColor: '#1a5276'
             }]
         },
         options: {
@@ -726,8 +726,8 @@ new Chart(document.getElementById('chartCities'), {
         datasets: [{
             label: 'Participantes',
             data: {!! json_encode($byCity->values()) !!},
-            backgroundColor: 'rgba(39,174,96,0.7)',
-            borderColor: '#27ae60',
+            backgroundColor: 'rgba(31,120,180,0.7)',
+            borderColor: '#1f78b4',
             borderWidth: 1,
             borderRadius: 6
         }]
@@ -751,11 +751,11 @@ new Chart(document.getElementById('chartTopVisitors'), {
             label: 'Visitas',
             data: {!! json_encode($topVisitors->pluck('visits_count')) !!},
             backgroundColor: [
-                'rgba(212,175,55,0.8)',
-                'rgba(192,192,192,0.8)',
-                'rgba(205,127,50,0.8)',
-                'rgba(0,35,149,0.6)',
-                'rgba(237,41,57,0.6)'
+                'rgba(0,35,149,0.85)',
+                'rgba(11,61,145,0.75)',
+                'rgba(41,128,185,0.7)',
+                'rgba(31,120,180,0.6)',
+                'rgba(133,193,233,0.7)'
             ],
             borderWidth: 1,
             borderRadius: 6

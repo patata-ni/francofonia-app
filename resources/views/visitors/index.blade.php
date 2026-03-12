@@ -319,7 +319,7 @@
                 <div class="logo-flag"></div>
                 <div class="logo-text">
                     <h1>Francofonía</h1>
-                    <p>🎭 Portal de Visitantes</p>
+                    <p><i class="bi bi-mask"></i> Portal de Visitantes</p>
                 </div>
             </div>
         </div>
@@ -356,26 +356,37 @@
                         Acceso por QR
                     </div>
 
+                    <!-- QR Camera Scanner -->
+                    <div id="qr-scanner-section" style="margin-bottom: 20px;">
+                        <button type="button" id="btnToggleCamera" class="btn-primary-custom" style="margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="bi bi-camera"></i> Escanear con Cámara
+                        </button>
+                        <div id="qr-reader" style="display: none; width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 15px;"></div>
+                        <div id="qr-status" style="display: none; text-align: center; padding: 10px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px;"></div>
+                    </div>
+
+                    <div class="divider" style="margin: 15px 0;">
+                        <div class="divider-line"></div>
+                        <span class="divider-text">o ingresa manualmente</span>
+                        <div class="divider-line"></div>
+                    </div>
+
                     <form action="{{ route('visitors.dashboard') }}" method="GET" id="qrForm">
                         <div class="form-group">
-                            <label for="code" class="form-label">Código QR o Código Manual</label>
+                            <label for="code" class="form-label">Código Manual</label>
                             <div class="input-group">
                                 <input 
                                     type="text" 
                                     class="form-control"
                                     id="code"
                                     name="code"
-                                    placeholder="Escanea tu QR o ingresa: FRANCO-000001"
-                                    autofocus
+                                    placeholder="Ingresa: FRANCO-000001"
                                     required
                                 >
                                 <button class="input-group-text" type="submit">
                                     <i class="bi bi-arrow-right"></i>
                                 </button>
                             </div>
-                            <small class="text-muted d-block mt-2">
-                                📱 Apunta tu cámara al código QR de tu gafete o ingresa el código manualmente
-                            </small>
                         </div>
                     </form>
 
@@ -387,26 +398,26 @@
 
                     <div class="info-cards">
                         <div class="info-card">
-                            <div class="info-card-icon">🍽️</div>
+                            <div class="info-card-icon"><i class="bi bi-shop"></i></div>
                             <div class="info-card-text">{{ $stands->count() }} Stands Disponibles</div>
                         </div>
                         <div class="info-card">
-                            <div class="info-card-icon">🌍</div>
+                            <div class="info-card-icon"><i class="bi bi-globe2"></i></div>
                             <div class="info-card-text">Culturas Francófonas</div>
                         </div>
                         <div class="info-card">
-                            <div class="info-card-icon">⭐</div>
+                            <div class="info-card-icon"><i class="bi bi-star"></i></div>
                             <div class="info-card-text">Experiencia Única</div>
                         </div>
                         <div class="info-card">
-                            <div class="info-card-icon">📊</div>
+                            <div class="info-card-icon"><i class="bi bi-bar-chart-line"></i></div>
                             <div class="info-card-text">Encuesta Incluida</div>
                         </div>
                     </div>
 
                     <div class="alert alert-custom alert-info" style="margin-top: 25px;">
                         <i class="bi bi-info-circle"></i>
-                        <span><strong>💡 Tip:</strong> Una vez ingresan, podrán ver todos los stands, sus visitas y responder la encuesta de satisfacción.</span>
+                        <span><strong><i class="bi bi-lightbulb"></i> Tip:</strong> Una vez ingresan, podrán ver todos los stands, sus visitas y responder la encuesta de satisfacción.</span>
                     </div>
                 </div>
             </div>
@@ -422,5 +433,81 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script>
+        (function() {
+            const btnToggle = document.getElementById('btnToggleCamera');
+            const qrReaderDiv = document.getElementById('qr-reader');
+            const qrStatus = document.getElementById('qr-status');
+            const codeInput = document.getElementById('code');
+            const qrForm = document.getElementById('qrForm');
+            let html5QrCode = null;
+            let scanning = false;
+
+            function showStatus(msg, type) {
+                qrStatus.style.display = 'block';
+                qrStatus.textContent = msg;
+                qrStatus.style.background = type === 'success' ? '#e8f5e9' : type === 'error' ? '#ffebee' : '#e3f2fd';
+                qrStatus.style.color = type === 'success' ? '#2e7d32' : type === 'error' ? '#c62828' : '#1565c0';
+            }
+
+            function stopScanner() {
+                if (html5QrCode && scanning) {
+                    html5QrCode.stop().then(function() {
+                        scanning = false;
+                        qrReaderDiv.style.display = 'none';
+                        btnToggle.innerHTML = '<i class="bi bi-camera"></i> Escanear con Cámara';
+                    }).catch(function() {
+                        scanning = false;
+                    });
+                }
+            }
+
+            function onScanSuccess(decodedText) {
+                stopScanner();
+                showStatus('Código detectado: ' + decodedText, 'success');
+                codeInput.value = decodedText;
+                setTimeout(function() {
+                    qrForm.submit();
+                }, 500);
+            }
+
+            btnToggle.addEventListener('click', function() {
+                if (scanning) {
+                    stopScanner();
+                    qrStatus.style.display = 'none';
+                    return;
+                }
+
+                qrReaderDiv.style.display = 'block';
+                btnToggle.innerHTML = '<i class="bi bi-camera-video-off"></i> Detener Cámara';
+
+                if (!html5QrCode) {
+                    html5QrCode = new Html5Qrcode("qr-reader");
+                }
+
+                showStatus('Iniciando cámara...', 'info');
+
+                html5QrCode.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: { width: 250, height: 250 } },
+                    onScanSuccess
+                ).then(function() {
+                    scanning = true;
+                    showStatus('Apunta la cámara al código QR', 'info');
+                }).catch(function(err) {
+                    qrReaderDiv.style.display = 'none';
+                    btnToggle.innerHTML = '<i class="bi bi-camera"></i> Escanear con Cámara';
+                    if (err.toString().includes('NotAllowedError') || err.toString().includes('Permission')) {
+                        showStatus('Permiso de cámara denegado. Permite el acceso en la configuración de tu navegador.', 'error');
+                    } else if (err.toString().includes('NotFoundError')) {
+                        showStatus('No se encontró cámara en este dispositivo.', 'error');
+                    } else {
+                        showStatus('No se pudo acceder a la cámara. Intenta usar el código manual.', 'error');
+                    }
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
