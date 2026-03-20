@@ -34,16 +34,7 @@
             background: linear-gradient(135deg, #002395, #1a4de8);
             color: #fff;
             text-align: center;
-            padding: 24px 20px 18px;
-        }
-
-        .badge-header img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+            padding: 16px 20px 14px;
         }
 
         .badge-header h1 {
@@ -51,6 +42,7 @@
             font-size: 1.3rem;
             font-weight: 800;
             margin: 0;
+            text-align: center;
         }
 
         .badge-header small {
@@ -58,6 +50,23 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0.7;
+            display: block;
+            text-align: center;
+        }
+
+        .header-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .header-logos img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
         }
 
         .flag-bar {
@@ -169,9 +178,13 @@
 
 <div class="badge-card">
     <div class="badge-header">
-        <img src="{{ asset('images/logo-francofonia.png') }}" alt="Logo">
-        <h1>Francofonía</h1>
-        <small>Sistema de Estands</small>
+        <div class="header-logos">
+            <img src="{{ asset('images/Logo_utgz.png') }}" alt="UTGZ">
+            <img src="{{ asset('images/logo-francofonia.png') }}" alt="Francofonía">
+            <img src="{{ asset('images/Logo_Gastro.png') }}" alt="Gastronomía">
+        </div>
+        <h1>Sabores de la Francofonía</h1>
+        <small>Muestra Gastronómica</small>
     </div>
 
     <div class="flag-bar">
@@ -191,12 +204,6 @@
             <p class="qr-hint">Escanear en cada estand</p>
         </div>
         @endif
-    </div>
-
-    <div class="badge-footer">
-        <strong>Accede a tu dashboard:</strong><br>
-        Correo: <strong>{{ $loginEmail }}</strong><br>
-        Contraseña: <strong>{{ $participant->qr_code }}</strong>
     </div>
 </div>
 

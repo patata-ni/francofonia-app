@@ -78,15 +78,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-muted fw-500">Visitas usadas</th>
+                        <th class="text-muted fw-500">Visitas</th>
                         <td>
-                            @php $used = $participant->visits->count(); $totalStands = App\Models\Stand::count() ?: 1; @endphp
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="progress" style="width:120px; height:8px; border-radius:4px;">
-                                    <div class="progress-bar bg-primary" style="width:{{ min(($used/$totalStands)*100, 100) }}%"></div>
-                                </div>
-                                <span class="badge-visits">{{ $used }}/{{ $totalStands }}</span>
-                            </div>
+                            <span class="badge-visits">{{ $participant->visits->count() }}</span>
                         </td>
                     </tr>
                 </table>

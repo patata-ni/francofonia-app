@@ -27,7 +27,7 @@ class BadgeMail extends Mailable
     public function build()
     {
         return $this->view('emails.badge')
-                    ->subject('Tu gafete — Evento Francofonía')
+                    ->subject('Invitación — Sabores de la Francofonía')
                     ->attachData($this->pdfContent, $this->pdfFilename, [
                         'mime' => 'application/pdf',
                     ]);

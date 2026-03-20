@@ -176,12 +176,19 @@ class ParticipantController extends Controller
             ? $participant->correo
             : strtolower($participant->qr_code) . '@franco.mx';
 
-        // Generar QR como SVG y convertir a base64 para compatibilidad con DomPDF
-        $qrSvg = QrCode::size(180)->errorCorrection('H')->generate($qrUrl);
-        $qrBase64 = base64_encode($qrSvg);
+        // Generar QR como PNG base64 para compatibilidad con DomPDF
+        $qrBase64 = $this->qrToPngBase64($qrUrl);
+
+        // Pre-procesar logos (resize + flatten alpha) para que DomPDF los renderice
+        $logoUtgz = $this->logoToBase64(public_path('images/Logo_utgz.png'), 84);
+        $logoGastro = $this->logoToBase64(public_path('images/Logo_Gastro.png'), 84);
+        $logoFranco = $this->logoToBase64(public_path('images/logo-francofonia.png'), 120);
 
         // Cargar la vista blade del gafete PDF y pasarle los datos
-        $pdf = Pdf::loadView('participants.badge-pdf', compact('participant', 'qrUrl', 'qrBase64', 'loginEmail'));
+        $pdf = Pdf::loadView('participants.badge-pdf', compact(
+            'participant', 'qrUrl', 'qrBase64', 'loginEmail',
+            'logoUtgz', 'logoGastro', 'logoFranco'
+        ));
 
         // Tamaño de papel personalizado en puntos (no es carta ni A4 — es como una tarjeta)
         $pdf->setPaper([0, 0, 340, 500]);
@@ -312,10 +319,16 @@ class ParticipantController extends Controller
             ? $participant->correo
             : strtolower($participant->qr_code) . '@franco.mx';
 
-        $qrSvg = QrCode::size(180)->errorCorrection('H')->generate($qrUrl);
-        $qrBase64 = base64_encode($qrSvg);
+        $qrBase64 = $this->qrToPngBase64($qrUrl);
 
-        $pdf = Pdf::loadView('participants.badge-pdf', compact('participant', 'qrUrl', 'qrBase64', 'loginEmail'));
+        $logoUtgz = $this->logoToBase64(public_path('images/Logo_utgz.png'), 84);
+        $logoGastro = $this->logoToBase64(public_path('images/Logo_Gastro.png'), 84);
+        $logoFranco = $this->logoToBase64(public_path('images/logo-francofonia.png'), 120);
+
+        $pdf = Pdf::loadView('participants.badge-pdf', compact(
+            'participant', 'qrUrl', 'qrBase64', 'loginEmail',
+            'logoUtgz', 'logoGastro', 'logoFranco'
+        ));
         $pdf->setPaper([0, 0, 340, 500]);
 
         return [
@@ -323,6 +336,74 @@ class ParticipantController extends Controller
             'filename'   => 'gafete-' . $participant->qr_code . '.pdf',
             'loginEmail' => $loginEmail,
         ];
+    }
+
+    /**
+     * Genera un QR code como PNG base64 usando BaconQrCode + GD.
+     */
+    private function qrToPngBase64(string $data, int $size = 180): string
+    {
+        $ec = \BaconQrCode\Common\ErrorCorrectionLevel::H();
+        $result = \BaconQrCode\Encoder\Encoder::encode($data, $ec);
+        $matrix = $result->getMatrix();
+        $matrixSize = $matrix->getWidth();
+        $scale = (int) floor($size / $matrixSize);
+        $imgSize = $matrixSize * $scale;
+
+        $im = imagecreatetruecolor($imgSize, $imgSize);
+        $white = imagecolorallocate($im, 255, 255, 255);
+        $black = imagecolorallocate($im, 0, 0, 0);
+        imagefill($im, 0, 0, $white);
+
+        for ($y = 0; $y < $matrixSize; $y++) {
+            for ($x = 0; $x < $matrixSize; $x++) {
+                if ($matrix->get($x, $y)) {
+                    imagefilledrectangle(
+                        $im,
+                        $x * $scale, $y * $scale,
+                        ($x + 1) * $scale - 1, ($y + 1) * $scale - 1,
+                        $black
+                    );
+                }
+            }
+        }
+
+        ob_start();
+        imagepng($im);
+        $png = ob_get_clean();
+        imagedestroy($im);
+
+        return base64_encode($png);
+    }
+
+    /**
+     * Redimensiona un logo PNG y lo convierte a base64 (fondo blanco, sin alpha).
+     */
+    private function logoToBase64(string $path, int $maxDim = 100, string $bgHex = '002395'): string
+    {
+        $src = imagecreatefrompng($path);
+        $w = imagesx($src);
+        $h = imagesy($src);
+        $ratio = min($maxDim / $w, $maxDim / $h);
+        $nw = (int) round($w * $ratio);
+        $nh = (int) round($h * $ratio);
+
+        $dst = imagecreatetruecolor($nw, $nh);
+        $r = hexdec(substr($bgHex, 0, 2));
+        $g = hexdec(substr($bgHex, 2, 2));
+        $b = hexdec(substr($bgHex, 4, 2));
+        $bg = imagecolorallocate($dst, $r, $g, $b);
+        imagefill($dst, 0, 0, $bg);
+        imagealphablending($dst, true);
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $nw, $nh, $w, $h);
+        imagedestroy($src);
+
+        ob_start();
+        imagepng($dst);
+        $png = ob_get_clean();
+        imagedestroy($dst);
+
+        return base64_encode($png);
     }
 
     /**

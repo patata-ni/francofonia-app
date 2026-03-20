@@ -315,7 +315,7 @@ document.getElementById('manual-code').addEventListener('keydown', e => {
 <script>
 function openSurvey() {
     const surveyUrl = document.getElementById('surveyModal').getAttribute('survey-url');
-    window.open(surveyUrl, '_blank');
     bootstrap.Modal.getInstance(document.getElementById('surveyModal')).hide();
+    window.location.href = surveyUrl;
 }
 </script>
