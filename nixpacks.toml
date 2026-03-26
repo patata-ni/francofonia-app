@@ -1,0 +1,16 @@
+# Nixpacks configuration for Laravel + Vite
+[phases.setup]
+# Instala dependencias de sistema necesarias
+nixPkgs = ["php", "nodejs", "composer", "npm"]
+
+[phases.build]
+# Instala dependencias PHP y Node
+cmds = [
+  "composer install --optimize-autoloader --no-scripts --no-interaction",
+  "npm ci --include=dev",
+  "npm run build"
+]
+
+[phases.start]
+# Comando para iniciar Laravel (ajusta si usas otro servidor)
+cmd = "php artisan serve --host=0.0.0.0 --port=8080"
