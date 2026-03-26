@@ -1,0 +1,7 @@
+# ── Redirigir TODO al directorio public/ ──────────────────────
+# Este archivo va en la RAÍZ del proyecto dentro de htdocs/
+# para que el hosting sirva la app desde public/ correctamente.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
