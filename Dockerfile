@@ -1,47 +1,32 @@
-# syntax=docker/dockerfile:1.7-labs
-FROM debian:trixie-slim AS build
-
-RUN apt-get update \
-    && apt-get -y --no-install-recommends install \
-        build-essential gcc make autoconf libtool bison \
-        dpkg-dev pkg-config re2c locate \
-        libmariadb-dev libmariadb-dev-compat libpq-dev \
-        libvips-dev default-libmysqlclient-dev libmagickwand-dev \
-        libicu-dev libxml2-dev libxslt-dev libyaml-dev \
-        sudo curl ca-certificates unzip git \
-    && rm -rf /var/lib/apt/lists/*
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-ENV MISE_DATA_DIR="/mise"
-ENV MISE_CONFIG_DIR="/mise"
-ENV MISE_CACHE_DIR="/mise/cache"
-ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
-ENV PATH="/mise/shims:$PATH"
-
-RUN curl https://mise.run | sh
-RUN mkdir -p /app
-RUN mise use --global "ubi:adwinying/php@8.3.29"
-RUN curl -L --output /usr/bin/composer https://github.com/composer/composer/releases/download/2.9.2/composer.phar && chmod +x /usr/bin/composer
-RUN mise use --global "node@22"
-RUN mise use --global "npm"
-ENV COMPOSER_HOME=/tmp COMPOSER_FUND=0 COMPOSER_ALLOW_SUPERUSER=1
+# Dockerfile optimizado para Laravel + Vite
+FROM node:18-bullseye-slim AS node_modules
 WORKDIR /app
-
-# Copia los archivos necesarios de Node y Composer
-COPY package.json package.json
-COPY package-lock.json package-lock.json
-COPY composer.json composer.json
-COPY composer.lock composer.lock
-COPY artisan artisan
-
-
-RUN composer install --optimize-autoloader --no-scripts --no-interaction
-ENV CI=true NPM_CONFIG_FUND=false
+COPY package.json package-lock.json ./
 RUN npm ci --include=dev
 
-# Copia el resto del código
-COPY . .
-RUN npx vite build
+FROM composer:2.6 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-scripts --no-interaction --prefer-dist --optimize-autoloader
 
-FROM scratch
-COPY --from=build /app /app
+FROM php:8.2-cli-bullseye
+WORKDIR /app
+
+# Instala dependencias del sistema
+RUN apt-get update \
+    && apt-get install -y libpng-dev libonig-dev libxml2-dev zip unzip git curl \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Copia dependencias
+COPY --from=vendor /app/vendor ./vendor
+COPY --from=node_modules /app/node_modules ./node_modules
+COPY . .
+
+# Build de assets
+RUN npm run build
+
+# Expone el puerto por defecto de Laravel
+EXPOSE 8080
+
+# Comando de inicio
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
