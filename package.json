@@ -1,15 +1,1 @@
-{
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-
-        "postinstall": "npm install vite",
-        "prebuild": "npm install -g vite"
-    },
-    "devDependencies": {
-        "axios": "^1.6.4",
-        "laravel-vite-plugin": "^1.0.0",
-        "vite": "^5.4.21"
-    }
-}
+{\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\"\n  },\n  \"devDependencies\": {\n    \"axios\": \"^1.6.4\",\n    \"laravel-vite-plugin\": \"^1.0.0\",\n    \"vite\": \"^5.4.21\"\n  }\n}
