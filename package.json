@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+
         "postinstall": "npm install vite",
         "prebuild": "npm install -g vite"
     },
