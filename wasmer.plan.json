@@ -1,0 +1,1 @@
+{\n  \"build\": {\n    \"command\": \"composer install --no-dev --optimize-autoloader\"\n  },\n  \"run\": {\n    \"command\": \"php artisan serve --host=0.0.0.0 --port=$PORT\"\n  }\n}
