@@ -20,3 +20,8 @@ yarn-error.log
 
 # Junk/test files
 storage/test-badge-*.pdf
+*.sql
+ListaInvitados.xlsx
+public/test_dompdf_debug.php
+test_badge_real.pdf
+public/test-badge2.pdf
