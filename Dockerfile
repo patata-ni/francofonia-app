@@ -1,32 +1,30 @@
-# Dockerfile optimizado para Laravel + Vite
-FROM node:18-bullseye-slim AS node_modules
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --include=dev
+# Usa PHP con Apache
+FROM php:8.3-apache
 
-FROM composer:2.6 AS vendor
-WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-interaction --prefer-dist --optimize-autoloader
+# Instalar dependencias necesarias
+RUN apt-get update && apt-get install -y \
+    git unzip curl libzip-dev zip \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-FROM php:8.2-cli-bullseye
-WORKDIR /app
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Instala dependencias del sistema
-RUN apt-get update \
-    && apt-get install -y libpng-dev libonig-dev libxml2-dev zip unzip git curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Copiar proyecto
+COPY . /var/www/html
 
-# Copia dependencias
-COPY --from=vendor /app/vendor ./vendor
-COPY --from=node_modules /app/node_modules ./node_modules
-COPY . .
+# Configurar Apache para Laravel
+RUN a2enmod rewrite
+RUN chown -R www-data:www-data /var/www/html
 
-# Build de assets
-RUN npm run build
+# Instalar dependencias de Laravel
+WORKDIR /var/www/html
+RUN composer install --no-dev --optimize-autoloader
 
-# Expone el puerto por defecto de Laravel
-EXPOSE 8080
+# Permisos
+RUN chmod -R 775 storage bootstrap/cache
 
-# Comando de inicio
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# Puerto
+EXPOSE 80
+
+# Comando inicial
+CMD php artisan migrate --force && apache2-foreground
