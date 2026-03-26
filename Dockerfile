@@ -34,9 +34,10 @@ COPY composer.json composer.json
 COPY composer.lock composer.lock
 COPY artisan artisan
 
+
 RUN composer install --optimize-autoloader --no-scripts --no-interaction
-ENV CI=true NODE_ENV=production NPM_CONFIG_FUND=false
-RUN npm ci
+ENV CI=true NPM_CONFIG_FUND=false
+RUN npm ci --include=dev
 
 # Copia el resto del código
 COPY . .
