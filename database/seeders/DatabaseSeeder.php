@@ -27,8 +27,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\User;
+use Database\Seeders\ScannerSeeder;
+use Database\Seeders\StandSeeder;
+use Database\Seeders\TestDataSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -43,35 +44,7 @@ class DatabaseSeeder extends Seeder
         // 2. Crear participantes, visitas y encuestas de prueba
         $this->call(TestDataSeeder::class);
 
-        // 3. Crear los 3 usuarios administrativos del sistema
-        $users = [
-            [
-                'name' => 'Administrador',
-                'email' => 'admin@franco.mx',
-                'password' => bcrypt('password'),   // bcrypt() encripta la contraseña
-                'role' => 'admin',                  // Acceso total al sistema
-            ],
-            [
-                'name' => 'Scanner Estand',
-                'email' => 'scanner@franco.mx',
-                'password' => bcrypt('password'),
-                'role' => 'scanner',                // Solo acceso a /scan
-            ],
-            [
-                'name' => 'Usuario Demo',
-                'email' => 'user@franco.mx',
-                'password' => bcrypt('password'),
-                'role' => 'user',                   // Solo ve su dashboard
-            ],
-        ];
-
-        // firstOrCreate: busca por email, si no existe → lo crea.
-        // Esto permite correr el seeder varias veces sin duplicar usuarios.
-        foreach ($users as $userData) {
-            User::firstOrCreate(
-                ['email' => $userData['email']],     // Buscar por este campo
-                $userData                            // Si no existe, crear con estos datos
-            );
-        }
+        // 3. Crear usuario admin y 8 scanners
+        $this->call(ScannerSeeder::class);
     }
 }
