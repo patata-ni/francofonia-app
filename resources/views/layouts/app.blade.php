@@ -464,6 +464,7 @@
                     <i class="bi bi-person-plus-fill"></i> Nuevo participante
                 </a>
 
+
                 <div class="nav-section-title">Estands</div>
 
                 <a href="{{ route('stands.index') }}"
