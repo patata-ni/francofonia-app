@@ -12,7 +12,7 @@
 @section('content')
 <div class="row justify-content-center mb-3">
     <div class="col-lg-7">
-        <a href="{{ route('admin.create') }}" class="btn btn-outline-primary w-100 mb-2">
+        <a href="{{ route('scanner.create') }}" class="btn btn-outline-primary w-100 mb-2">
             <i class="bi bi-person-badge"></i> Crear usuario scanner
         </a>
     </div>

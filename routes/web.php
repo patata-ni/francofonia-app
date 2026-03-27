@@ -1,3 +1,7 @@
+use App\Http\Controllers\ScannerUserController;
+// Rutas para crear usuario scanner
+Route::get('/crear-scanner', [ScannerUserController::class, 'showCreateForm'])->name('scanner.create');
+Route::post('/crear-scanner', [ScannerUserController::class, 'store'])->name('scanner.create.post');
 <?php
 use App\Http\Controllers\AdminUserController;
 // Ruta para crear usuario admin desde el login
