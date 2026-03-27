@@ -125,6 +125,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn-login">Ingresar</button>
+                        <a href="{{ route('admin.create') }}" class="btn btn-link w-100 mt-2" style="text-align:center;">Crear usuario administrador</a>
             </form>
             <a href="{{ route('home') }}" class="back-link"><i class="bi bi-arrow-left"></i> Volver al inicio</a>
         </div>
